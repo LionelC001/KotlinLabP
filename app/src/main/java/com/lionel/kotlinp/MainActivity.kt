@@ -2,20 +2,19 @@ package com.lionel.kotlinp
 
 import android.os.Bundle
 import android.widget.Button
-import android.widget.TextView
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
 
-    lateinit var txtView: TextView
-    lateinit var btnRoll: Button
-    lateinit var btnCountUp: Button
-    lateinit var btnReset: Button
+    private lateinit var imgDice1: ImageView
+    private lateinit var imgDice2: ImageView
+    private lateinit var btnRoll: Button
+    private lateinit var btnReset: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
 
 
         initView()
@@ -23,37 +22,35 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initView() {
-        txtView = findViewById(R.id.txtView)
+        imgDice1 = findViewById(R.id.imgDice1)
+        imgDice2 = findViewById(R.id.imgDice2)
         btnRoll = findViewById(R.id.btnRoll)
-        btnCountUp = findViewById(R.id.btnCountUp)
         btnReset = findViewById(R.id.btnReset)
     }
 
     private fun initListener() {
         btnRoll.setOnClickListener { onBtnClicked() }
-        btnCountUp.setOnClickListener { onCountUp() }
         btnReset.setOnClickListener { onReset() }
     }
 
     private fun onBtnClicked() {
-        val iRandom = (1..6).random()
-        txtView.text = iRandom.toString()
-
-    }
-
-    private fun onCountUp() {
-        var count = txtView.text.toString().toIntOrNull()
-
-        if (count != null) {
-            if (count < 6) count++
-        } else {
-            count = 1
-        }
-
-        txtView.text = count.toString()
+        imgDice1.setImageResource(getRandomResDice())
+        imgDice2.setImageResource(getRandomResDice())
     }
 
     private fun onReset() {
-        txtView.text = 0.toString()
+        imgDice1.setImageResource(R.drawable.dice_1)
+        imgDice2.setImageResource(R.drawable.dice_1)
+    }
+
+    private fun getRandomResDice(): Int {
+        return when ((1..6).random()) {
+            1 -> R.drawable.dice_1
+            2 -> R.drawable.dice_2
+            3 -> R.drawable.dice_3
+            4 -> R.drawable.dice_4
+            5 -> R.drawable.dice_5
+            else -> R.drawable.dice_6
+        }
     }
 }
