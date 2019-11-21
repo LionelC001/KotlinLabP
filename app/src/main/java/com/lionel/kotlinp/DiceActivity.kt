@@ -5,7 +5,7 @@ import android.widget.Button
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 
-class MainActivity : AppCompatActivity() {
+class DiceActivity : AppCompatActivity() {
 
     private lateinit var imgDice1: ImageView
     private lateinit var imgDice2: ImageView
