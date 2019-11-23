@@ -1,8 +1,7 @@
-package com.lionel.kotlinp
+package com.lionel.kotlinp.about_me
 
 import android.content.Context
 import android.os.Bundle
-import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.inputmethod.InputMethodManager
@@ -10,16 +9,22 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
+import com.lionel.kotlinp.R
+import com.lionel.kotlinp.databinding.ActivityAboutMeBinding
 
 class AboutMeActivity : AppCompatActivity() {
-
+    private lateinit var dataBinding: ActivityAboutMeBinding
     private lateinit var edtNickName: EditText
     private lateinit var txtNickName: TextView
     private lateinit var btnDone: Button
 
+    private val myName: MyName = MyName("Lionel")
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_about_me)
+        dataBinding = DataBindingUtil.setContentView(this, R.layout.activity_about_me)
+        dataBinding.myName = myName
 
         initView()
         initListener()
@@ -27,9 +32,9 @@ class AboutMeActivity : AppCompatActivity() {
 
 
     private fun initView() {
-        edtNickName = findViewById(R.id.edtNickName)
-        txtNickName = findViewById(R.id.txtNickName)
-        btnDone = findViewById(R.id.btnDone)
+        edtNickName = dataBinding.edtNickName
+        txtNickName = dataBinding.txtNickName
+        btnDone = dataBinding.btnDone
     }
 
     private fun initListener() {
@@ -39,7 +44,9 @@ class AboutMeActivity : AppCompatActivity() {
 
 
     private fun addNickName() {
-        txtNickName.text = edtNickName.text
+        myName.nickname = edtNickName.text.toString()
+        dataBinding.invalidateAll()
+
         edtNickName.visibility = GONE
         btnDone.visibility = GONE
         txtNickName.visibility = VISIBLE
@@ -58,6 +65,6 @@ class AboutMeActivity : AppCompatActivity() {
 
         //show the keyboard
         val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        inputMethodManager.showSoftInput(edtNickName,0)
+        inputMethodManager.showSoftInput(edtNickName, 0)
     }
 }
